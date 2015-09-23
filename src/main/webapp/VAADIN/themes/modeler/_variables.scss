@@ -1,0 +1,27 @@
+/*
+ * Upravené hodnoty Valo proměnných musí být před importem
+ */
+$v-font-family: sans-serif, "Arial";
+$v-font-size: 14px;
+$v-background-color: hsl(210, 0%, 98%);
+
+// Pokud je barva již nastavená, nepřenastavuj
+$v-focus-color: #0273B1;
+
+// Upravené velikosti headerů, h1 by se nedal v naší aplikaci použít, je moc velký
+$v-font-size--h1: round(1.7 * $v-font-size);
+$v-font-size--h2: round(1.5 * $v-font-size);
+$v-font-size--h3: round(1.3 * $v-font-size);
+$v-font-size--small: round(0.75 * $v-font-size);
+
+// Upravené šířky písma headeru
+$font-weight--h1: 400;
+$font-weight--h2: 400;
+$font-weight--h3: 400;
+$font-weight--h4: 600;
+
+// Upravené marginy
+$v-layout-margin-left: 10px;
+$v-layout-margin-top: 10px;
+$v-layout-margin-right: 10px;
+$v-layout-margin-bottom: 10px;

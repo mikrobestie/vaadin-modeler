@@ -1,0 +1,33 @@
+/*
+ * Import the valo theme.
+ * This only allows us to use the mixins defined in it and does not add any styles by itself.
+ */
+@import "../valo/valo";
+
+/* This contains all of your theme.*/
+@mixin modeler {
+
+    /* Include all the styles from the valo theme */
+    @include valo;
+
+    .centered-content {
+        background: url('img/background_linen.png') repeat;
+    }
+
+    .canvas {
+        position: relative;
+        background-color: #fff;
+        -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+        -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+    }
+
+    ._selectable:hover {
+        outline: 2px solid $v-focus-color;
+    }
+
+    ._selected {
+        outline: 2px solid $v-focus-color;
+        background: red;
+    }
+}
