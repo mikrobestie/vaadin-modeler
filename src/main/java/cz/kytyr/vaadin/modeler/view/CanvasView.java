@@ -16,6 +16,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.DragAndDropWrapper;
 import com.vaadin.ui.Label;
+import cz.kytyr.vaadin.modeler.component.PaletteButton;
 
 import javax.annotation.PostConstruct;
 
@@ -45,6 +46,7 @@ public class CanvasView extends DragAndDropWrapper implements View {
 
         layout = (CssLayout) getCompositionRoot();
         layout.addLayoutClickListener(this::onComponentSelected);
+        layout.setSizeFull();
 
         setDropHandler(new DropHandler() {
 
@@ -52,8 +54,11 @@ public class CanvasView extends DragAndDropWrapper implements View {
             public void drop(DragAndDropEvent event) {
 
                 Component sourceComponent = event.getTransferable().getSourceComponent();
-                layout.addComponent(sourceComponent);
-                sourceComponent.addStyleName(STYLE_SELECTABLE);
+                if (sourceComponent instanceof PaletteButton) {
+                    Component c = ((PaletteButton) sourceComponent).instantiate();
+                    c.addStyleName(STYLE_SELECTABLE);
+                    layout.addComponent(c);
+                }
             }
 
             @Override
@@ -77,7 +82,9 @@ public class CanvasView extends DragAndDropWrapper implements View {
                 selected.removeStyleName(STYLE_SELECTED);
             }
             selected = e.getClickedComponent();
-            selected.addStyleName(STYLE_SELECTED);
+            if (selected != null) {
+                selected.addStyleName(STYLE_SELECTED);
+            }
         }
     }
 }

@@ -4,8 +4,6 @@
  */
 package cz.kytyr.vaadin.modeler.component;
 
-import com.vaadin.ui.DragAndDropWrapper;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -19,11 +17,6 @@ public class SideBar extends VerticalLayout {
         setHeight(100, Unit.PERCENTAGE);
         setMargin(true);
         setSpacing(true);
-
-        Label label = new Label("Chyť mě");
-
-        DragAndDropWrapper labelWrapper = new DragAndDropWrapper(label);
-        labelWrapper.setDragStartMode(DragAndDropWrapper.DragStartMode.COMPONENT);
-        addComponent(labelWrapper);
+        addComponent(new Palette());
     }
 }
