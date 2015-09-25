@@ -13,7 +13,9 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
-import cz.kytyr.vaadin.modeler.component.SideBar;
+import com.vaadin.ui.VerticalLayout;
+import cz.kytyr.vaadin.modeler.component.PalettePanel;
+import cz.kytyr.vaadin.modeler.component.PropertiesPanel;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -30,14 +32,17 @@ public class ModelerUI extends UI {
     @Autowired
     private SpringViewProvider viewProvider;
 
+    @Autowired
+    private PalettePanel palettePanel;
+
+    @Autowired
+    private PropertiesPanel propertiesPanel;
+
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        final HorizontalLayout root = new HorizontalLayout();
-        root.setSizeFull();
-        setContent(root);
 
-        final Panel viewContainer = new Panel();
+        Panel viewContainer = new Panel();
         viewContainer.setSizeFull();
 
         HorizontalLayout centerContentLayout = new HorizontalLayout();
@@ -46,9 +51,16 @@ public class ModelerUI extends UI {
         centerContentLayout.setSizeFull();
         viewContainer.setContent(centerContentLayout);
 
-        root.addComponent(viewContainer);
-        root.addComponent(new SideBar());
+        VerticalLayout sidebar = new VerticalLayout(palettePanel, propertiesPanel);
+        sidebar.setWidth(300, Unit.PIXELS);
+        sidebar.setHeight(100, Unit.PERCENTAGE);
+        sidebar.setMargin(true);
+        sidebar.setSpacing(true);
+
+        final HorizontalLayout root = new HorizontalLayout(viewContainer, sidebar);
+        root.setSizeFull();
         root.setExpandRatio(viewContainer, 1.0f);
+        setContent(root);
 
         Navigator navigator = new Navigator(this, centerContentLayout);
         navigator.addProvider(viewProvider);

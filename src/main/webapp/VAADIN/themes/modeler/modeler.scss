@@ -10,6 +10,20 @@
     /* Include all the styles from the valo theme */
     @include valo;
 
+    /* Default margins are so big.. */
+    .v-margin-top {
+        padding-top: 10px;
+    }
+    .v-margin-right {
+        padding-right: 10px;
+    }
+    .v-margin-bottom {
+        padding-bottom: 10px;
+    }
+    .v-margin-left {
+        padding-left: 10px;
+    }
+
     .centered-content {
         background: url('img/background_linen.png') repeat;
     }
@@ -17,9 +31,8 @@
     .canvas {
         position: relative;
         background-color: #fff;
-        -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
-        -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+        border: 3px solid #393939;
+        border-radius: 5px;
     }
 
     ._selectable:hover {

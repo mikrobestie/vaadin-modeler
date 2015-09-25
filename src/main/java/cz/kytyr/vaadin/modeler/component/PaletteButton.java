@@ -38,7 +38,7 @@ public class PaletteButton<C extends Component> extends DragAndDropWrapper {
      *
      * @return Component instance
      */
-    public C instantiate() {
+    public CanvasComponent<C> instantiate() {
         try {
 
             C component = type.newInstance();
@@ -46,7 +46,7 @@ public class PaletteButton<C extends Component> extends DragAndDropWrapper {
                 component.setSizeFull();
             }
 
-            return component;
+            return new CanvasComponent<>(component);
         } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException("Cannot create component instance", e);
         }

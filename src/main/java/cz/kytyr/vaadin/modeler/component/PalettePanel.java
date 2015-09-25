@@ -8,21 +8,25 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 
 /**
  * @author Michal
  * @since 24.9.2015
  */
-public class Palette extends Accordion {
+public class PalettePanel extends Accordion {
 
-    public Palette() {
+    public PalettePanel() {
 
         VerticalLayout layout = new VerticalLayout();
+        layout.setMargin(true);
+        layout.setSpacing(true);
         layout.addComponent(new PaletteButton<>(VerticalLayout.class, FontAwesome.ALIGN_CENTER));
         layout.addComponent(new PaletteButton<>(HorizontalLayout.class, FontAwesome.ALIGN_LEFT));
 
         Tab tab = addTab(layout);
         tab.setCaption("Layouts");
         setSizeFull();
+        addStyleName(ValoTheme.ACCORDION_BORDERLESS);
     }
 }

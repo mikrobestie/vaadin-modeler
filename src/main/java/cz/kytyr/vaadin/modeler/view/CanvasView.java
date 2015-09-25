@@ -4,7 +4,6 @@
  */
 package cz.kytyr.vaadin.modeler.view;
 
-import com.vaadin.event.LayoutEvents;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptAll;
@@ -12,40 +11,60 @@ import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
+import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.DragAndDropWrapper;
-import com.vaadin.ui.Label;
+import cz.kytyr.vaadin.modeler.component.CanvasComponent;
 import cz.kytyr.vaadin.modeler.component.PaletteButton;
+import cz.kytyr.vaadin.modeler.component.PropertiesPanel;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Michal
  * @since 23.9.2015
  */
 @SpringView(name = "")
+@UIScope
 public class CanvasView extends DragAndDropWrapper implements View {
 
     public static final String STYLE_SELECTABLE = "_selectable";
     public static final String STYLE_SELECTED = "_selected";
 
     private CssLayout layout;
-    private Component selected;
+    private CanvasComponent selected;
+    private List<SelectionListener> selectionListeners;
+
+
+    @Autowired
+    private PropertiesPanel propertiesPanel;
 
 
     public CanvasView() {
         super(new CssLayout());
-    }
-
-    @PostConstruct
-    void init() {
         setPrimaryStyleName("canvas");
         setWidth(640, Unit.PIXELS);
         setHeight(480, Unit.PIXELS);
 
         layout = (CssLayout) getCompositionRoot();
-        layout.addLayoutClickListener(this::onComponentSelected);
+        layout.addLayoutClickListener(e -> {
+            Component clicked = e.getClickedComponent();
+            if (clicked != null) {
+                if (clicked instanceof CanvasComponent) {
+                    setSelectedComponent((CanvasComponent) clicked);
+                } else {
+                    if (clicked.getParent() instanceof CanvasComponent) {
+                        setSelectedComponent((CanvasComponent) clicked.getParent());
+                    } else {
+                        throw new IllegalStateException("Illegal component in canvas: " + clicked);
+                    }
+                }
+            }
+        });
         layout.setSizeFull();
 
         setDropHandler(new DropHandler() {
@@ -55,9 +74,10 @@ public class CanvasView extends DragAndDropWrapper implements View {
 
                 Component sourceComponent = event.getTransferable().getSourceComponent();
                 if (sourceComponent instanceof PaletteButton) {
-                    Component c = ((PaletteButton) sourceComponent).instantiate();
+                    CanvasComponent c = ((PaletteButton) sourceComponent).instantiate();
                     c.addStyleName(STYLE_SELECTABLE);
                     layout.addComponent(c);
+                    setSelectedComponent(c);
                 }
             }
 
@@ -68,23 +88,59 @@ public class CanvasView extends DragAndDropWrapper implements View {
         });
     }
 
+    @PostConstruct
+    void init() {
+        addSelectionListener(propertiesPanel::setComponent);
+    }
+
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
 
-        Label label = new Label("Hello world!");
-        label.addStyleName(STYLE_SELECTABLE);
-        layout.addComponent(label);
     }
 
-    private void onComponentSelected(LayoutEvents.LayoutClickEvent e) {
-        if (e.getClickedComponent() != selected) {
+    public void addSelectionListener(SelectionListener listener) {
+        if (selectionListeners == null) {
+            selectionListeners = new ArrayList<>();
+        }
+        selectionListeners.add(listener);
+    }
+
+    /**
+     * Sets the currently selected component.
+     *
+     * @param c The component
+     */
+    public void setSelectedComponent(CanvasComponent c) {
+        if (c != selected) {
             if (selected != null) {
                 selected.removeStyleName(STYLE_SELECTED);
             }
-            selected = e.getClickedComponent();
+            selected = c;
             if (selected != null) {
                 selected.addStyleName(STYLE_SELECTED);
             }
+            fireSelectionEvent();
         }
+    }
+
+    private void fireSelectionEvent() {
+        if (selectionListeners != null) {
+            selectionListeners.forEach(l -> l.componentSelected(selected));
+        }
+    }
+
+
+    /**
+     * Listener for canvas component selection event.
+     */
+    @FunctionalInterface
+    public interface SelectionListener {
+
+        /**
+         * Called when component is selected in the canvas.
+         *
+         * @param component Canvas component
+         */
+        void componentSelected(CanvasComponent component);
     }
 }
