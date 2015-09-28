@@ -2,7 +2,7 @@
  * encoding="UTF-8", (greek letters ro psi: ρψ). Do not change this comment!!!
  * Copyright 2014 © Syntea software group a.s.
  */
-package cz.kytyr.vaadin.modeler.component;
+package cz.kytyr.vaadin.modeler.component.palette;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -10,12 +10,15 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.DragAndDropWrapper;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
+import cz.kytyr.vaadin.modeler.component.CanvasComponent;
 
 /**
- * @author Michal
+ * Abstract button which can be draggen onto canvas to add a specific component.
+ *
+ * @author mikrobestie
  * @since 24.9.2015
  */
-public class PaletteButton<C extends Component> extends DragAndDropWrapper {
+public abstract class PaletteButton<C extends Component> extends DragAndDropWrapper {
 
     private final Class<C> type;
 
@@ -26,7 +29,7 @@ public class PaletteButton<C extends Component> extends DragAndDropWrapper {
      * @param type Type
      * @param icon Icon
      */
-    public PaletteButton(Class<C> type, FontAwesome icon) {
+    protected PaletteButton(Class<C> type, FontAwesome icon) {
         super(new Label(icon.getHtml() + type.getSimpleName(), ContentMode.HTML));
         setDragStartMode(DragStartMode.COMPONENT);
         setSizeUndefined();

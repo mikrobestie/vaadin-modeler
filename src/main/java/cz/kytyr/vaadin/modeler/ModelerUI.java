@@ -14,7 +14,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import cz.kytyr.vaadin.modeler.component.PalettePanel;
+import cz.kytyr.vaadin.modeler.component.palette.PalettePanel;
 import cz.kytyr.vaadin.modeler.component.PropertiesPanel;
 import org.springframework.beans.factory.annotation.Autowired;
 

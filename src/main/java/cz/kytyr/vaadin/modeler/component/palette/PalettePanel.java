@@ -2,11 +2,9 @@
  * encoding="UTF-8", (greek letters ro psi: ρψ). Do not change this comment!!!
  * Copyright 2014 © Syntea software group a.s.
  */
-package cz.kytyr.vaadin.modeler.component;
+package cz.kytyr.vaadin.modeler.component.palette;
 
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Accordion;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -21,8 +19,8 @@ public class PalettePanel extends Accordion {
         VerticalLayout layout = new VerticalLayout();
         layout.setMargin(true);
         layout.setSpacing(true);
-        layout.addComponent(new PaletteButton<>(VerticalLayout.class, FontAwesome.ALIGN_CENTER));
-        layout.addComponent(new PaletteButton<>(HorizontalLayout.class, FontAwesome.ALIGN_LEFT));
+        layout.addComponent(new VerticalLayoutButton());
+        layout.addComponent(new HorizontalLayoutButton());
 
         Tab tab = addTab(layout);
         tab.setCaption("Layouts");

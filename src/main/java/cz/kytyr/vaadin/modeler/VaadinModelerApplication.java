@@ -1,7 +1,7 @@
 package cz.kytyr.vaadin.modeler;
 
 import com.vaadin.spring.annotation.UIScope;
-import cz.kytyr.vaadin.modeler.component.PalettePanel;
+import cz.kytyr.vaadin.modeler.component.palette.PalettePanel;
 import cz.kytyr.vaadin.modeler.component.PropertiesPanel;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -16,7 +16,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.DragAndDropWrapper;
 import cz.kytyr.vaadin.modeler.component.CanvasComponent;
-import cz.kytyr.vaadin.modeler.component.PaletteButton;
+import cz.kytyr.vaadin.modeler.component.palette.PaletteButton;
 import cz.kytyr.vaadin.modeler.component.PropertiesPanel;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -32,7 +32,6 @@ import java.util.List;
 @UIScope
 public class CanvasView extends DragAndDropWrapper implements View {
 
-    public static final String STYLE_SELECTABLE = "_selectable";
     public static final String STYLE_SELECTED = "_selected";
 
     private CssLayout layout;
@@ -75,7 +74,6 @@ public class CanvasView extends DragAndDropWrapper implements View {
                 Component sourceComponent = event.getTransferable().getSourceComponent();
                 if (sourceComponent instanceof PaletteButton) {
                     CanvasComponent c = ((PaletteButton) sourceComponent).instantiate();
-                    c.addStyleName(STYLE_SELECTABLE);
                     layout.addComponent(c);
                     setSelectedComponent(c);
                 }
