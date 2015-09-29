@@ -6,8 +6,8 @@ package cz.kytyr.vaadin.modeler.component;
 
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
-import com.vaadin.event.dd.acceptcriteria.AcceptAll;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
+import com.vaadin.event.dd.acceptcriteria.SourceIsTarget;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DragAndDropWrapper;
 import com.vaadin.ui.HasComponents;
@@ -42,19 +42,24 @@ public class CanvasComponent<C extends Component> extends DragAndDropWrapper {
                 @Override
                 public void drop(DragAndDropEvent event) {
 
+                    // Find source component
                     Component sourceComponent = event.getTransferable().getSourceComponent();
+                    CanvasComponent component;
                     if (sourceComponent instanceof PaletteButton) {
-                        CanvasComponent c = ((PaletteButton) sourceComponent).instantiate();
-                        ((Layout) getWrappedComponent()).addComponent(c);
-                        // setSelectedComponent(c);
+                        component = ((PaletteButton) sourceComponent).instantiate();
                     } else if (sourceComponent instanceof CanvasComponent) {
-                        ((Layout) getWrappedComponent()).addComponent(sourceComponent);
+                        component = (CanvasComponent) sourceComponent;
+                    } else {
+                        throw new IllegalArgumentException("Zdrojová komponenta " + sourceComponent + " není typu CanvasCOmponent ani PaletteButton");
                     }
+
+                    // Find target component
+                    ((Layout) getWrappedComponent()).addComponent(component);
                 }
 
                 @Override
                 public AcceptCriterion getAcceptCriterion() {
-                    return AcceptAll.get();
+                    return SourceIsTarget.get();
                 }
             });
         }

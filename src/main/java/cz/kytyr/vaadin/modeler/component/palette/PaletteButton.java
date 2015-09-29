@@ -30,7 +30,7 @@ public abstract class PaletteButton<C extends Component> extends DragAndDropWrap
      * @param icon Icon
      */
     protected PaletteButton(Class<C> type, FontAwesome icon) {
-        super(new Label(icon.getHtml() + type.getSimpleName(), ContentMode.HTML));
+        super(new Label(icon.getHtml() + "&nbsp;" + type.getSimpleName(), ContentMode.HTML));
         setDragStartMode(DragStartMode.COMPONENT);
         setSizeUndefined();
         this.type = type;

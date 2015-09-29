@@ -37,10 +37,15 @@
 
     ._selectable:hover {
         outline: 2px solid $v-focus-color;
+        background: lightblue;
     }
 
     ._selected {
         outline: 2px solid $v-focus-color;
-        background: red;
+        background: dodgerblue;
+
+        &._selectable:hover {
+            background: dodgerblue;
+        }
     }
 }
