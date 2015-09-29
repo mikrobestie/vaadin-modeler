@@ -1,4 +1,4 @@
-package cz.kytyr.vaadin.modeler;
+package cz.mikrobestie.vaadin.modeler;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -2,7 +2,7 @@
  * encoding="UTF-8", (greek letters ro psi: ρψ). Do not change this comment!!!
  * Copyright 2014 © Syntea software group a.s.
  */
-package cz.kytyr.vaadin.modeler.component;
+package cz.mikrobestie.vaadin.modeler.component;
 
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
@@ -12,7 +12,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.DragAndDropWrapper;
 import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.Layout;
-import cz.kytyr.vaadin.modeler.component.palette.PaletteButton;
+import cz.mikrobestie.vaadin.modeler.component.palette.PaletteButton;
 
 /**
  *
@@ -50,7 +50,7 @@ public class CanvasComponent<C extends Component> extends DragAndDropWrapper {
                     } else if (sourceComponent instanceof CanvasComponent) {
                         component = (CanvasComponent) sourceComponent;
                     } else {
-                        throw new IllegalArgumentException("Source component " + sourceComponent + " is not CanvasCOmponent or PaletteButton");
+                        throw new IllegalArgumentException("Source component " + sourceComponent + " is not CanvasComponent or PaletteButton");
                     }
 
                     // Find target component

@@ -2,7 +2,7 @@
  * encoding="UTF-8", (greek letters ro psi: ρψ). Do not change this comment!!!
  * Copyright 2014 © Syntea software group a.s.
  */
-package cz.kytyr.vaadin.modeler.component;
+package cz.mikrobestie.vaadin.modeler.component;
 
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;

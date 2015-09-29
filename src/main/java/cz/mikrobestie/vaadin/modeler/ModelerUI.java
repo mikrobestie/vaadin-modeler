@@ -2,7 +2,7 @@
  * encoding="UTF-8", (greek letters ro psi: ρψ). Do not change this comment!!!
  * Copyright 2014 © Syntea software group a.s.
  */
-package cz.kytyr.vaadin.modeler;
+package cz.mikrobestie.vaadin.modeler;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
@@ -14,8 +14,8 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import cz.kytyr.vaadin.modeler.component.palette.PalettePanel;
-import cz.kytyr.vaadin.modeler.component.PropertiesPanel;
+import cz.mikrobestie.vaadin.modeler.component.palette.PalettePanel;
+import cz.mikrobestie.vaadin.modeler.component.PropertiesPanel;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

@@ -1,8 +1,8 @@
-package cz.kytyr.vaadin.modeler;
+package cz.mikrobestie.vaadin.modeler;
 
 import com.vaadin.spring.annotation.UIScope;
-import cz.kytyr.vaadin.modeler.component.palette.PalettePanel;
-import cz.kytyr.vaadin.modeler.component.PropertiesPanel;
+import cz.mikrobestie.vaadin.modeler.component.palette.PalettePanel;
+import cz.mikrobestie.vaadin.modeler.component.PropertiesPanel;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;

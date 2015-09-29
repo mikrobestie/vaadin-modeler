@@ -2,7 +2,7 @@
  * encoding="UTF-8", (greek letters ro psi: ρψ). Do not change this comment!!!
  * Copyright 2014 © Syntea software group a.s.
  */
-package cz.kytyr.vaadin.modeler.component.palette;
+package cz.mikrobestie.vaadin.modeler.component.palette;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -10,7 +10,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.DragAndDropWrapper;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
-import cz.kytyr.vaadin.modeler.component.CanvasComponent;
+import cz.mikrobestie.vaadin.modeler.component.CanvasComponent;
 
 /**
  * Abstract button which can be draggen onto canvas to add a specific component.

@@ -2,11 +2,11 @@
  * encoding="UTF-8", (greek letters ro psi: ρψ). Do not change this comment!!!
  * Copyright 2014 © Syntea software group a.s.
  */
-package cz.kytyr.vaadin.modeler.component.palette;
+package cz.mikrobestie.vaadin.modeler.component.palette;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.VerticalLayout;
-import cz.kytyr.vaadin.modeler.component.CanvasComponent;
+import cz.mikrobestie.vaadin.modeler.component.CanvasComponent;
 
 /**
  * Palette button creating HorizontalLayout on canvas drop.
