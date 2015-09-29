@@ -50,7 +50,7 @@ public class CanvasComponent<C extends Component> extends DragAndDropWrapper {
                     } else if (sourceComponent instanceof CanvasComponent) {
                         component = (CanvasComponent) sourceComponent;
                     } else {
-                        throw new IllegalArgumentException("Zdrojová komponenta " + sourceComponent + " není typu CanvasCOmponent ani PaletteButton");
+                        throw new IllegalArgumentException("Source component " + sourceComponent + " is not CanvasCOmponent or PaletteButton");
                     }
 
                     // Find target component
