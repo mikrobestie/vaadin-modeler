@@ -1,3 +1,4 @@
+@import "variables";
 /*
  * Import the valo theme.
  * This only allows us to use the mixins defined in it and does not add any styles by itself.
@@ -46,6 +47,13 @@
 
         &._selectable:hover {
             background: dodgerblue;
+        }
+    }
+
+    // Properties panel
+    .v-formlayout-light {
+        .v-formlayout-errorcell {
+            border-right: 1px solid rgb(234, 234, 234);
         }
     }
 }

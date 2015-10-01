@@ -82,7 +82,7 @@ public class CanvasView extends DragAndDropWrapper implements View {
                     if (layout.getComponentCount() != 0) {
                         layout.removeAllComponents();
                     }
-                    component.setSizeFull();
+                    component.getWrappedComponent().setSizeFull();
                     targetLayout = layout;
                 } else if (target instanceof CanvasComponent) {
                     targetLayout = ((Layout) target);
@@ -93,7 +93,7 @@ public class CanvasView extends DragAndDropWrapper implements View {
 
             @Override
             public AcceptCriterion getAcceptCriterion() {
-                return layout.getComponentCount() == 0 ? AcceptAll.get() : null;
+                return AcceptAll.get();
             }
         });
     }

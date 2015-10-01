@@ -21,6 +21,7 @@ public class PalettePanel extends Accordion {
         layout.setSpacing(true);
         layout.addComponent(new VerticalLayoutButton());
         layout.addComponent(new HorizontalLayoutButton());
+        layout.addComponent(new ButtonButton());
 
         Tab tab = addTab(layout);
         tab.setCaption("Layouts");

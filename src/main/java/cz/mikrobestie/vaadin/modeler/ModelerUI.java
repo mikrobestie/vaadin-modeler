@@ -52,7 +52,7 @@ public class ModelerUI extends UI {
         viewContainer.setContent(centerContentLayout);
 
         VerticalLayout sidebar = new VerticalLayout(palettePanel, propertiesPanel);
-        sidebar.setWidth(300, Unit.PIXELS);
+        sidebar.setWidth(400, Unit.PIXELS);
         sidebar.setHeight(100, Unit.PERCENTAGE);
         sidebar.setMargin(true);
         sidebar.setSpacing(true);
