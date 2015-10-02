@@ -7,6 +7,7 @@ package cz.mikrobestie.vaadin.modeler.component;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.Alignment;
@@ -19,8 +20,10 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
 import cz.mikrobestie.vaadin.modeler.component.custom.FormCheckBox;
+import cz.mikrobestie.vaadin.modeler.event.ComponentSelectedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.event.EventListener;
 
 import java.lang.reflect.Method;
 
@@ -28,6 +31,8 @@ import java.lang.reflect.Method;
  * @author Michal
  * @since 25.9.2015
  */
+@org.springframework.stereotype.Component
+@UIScope
 public class PropertiesPanel extends Panel {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesPanel.class);
@@ -82,6 +87,13 @@ public class PropertiesPanel extends Panel {
 
             layout.addComponent(butRemove);
             layout.setComponentAlignment(butRemove, Alignment.MIDDLE_CENTER);
+        }
+    }
+
+    @EventListener
+    private void handleComponentSelected(ComponentSelectedEvent event) {
+        if (event.getSource() != this) {
+            setComponent(event.getComponent());
         }
     }
 

@@ -14,6 +14,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import cz.mikrobestie.vaadin.modeler.component.TreePanel;
 import cz.mikrobestie.vaadin.modeler.component.palette.PalettePanel;
 import cz.mikrobestie.vaadin.modeler.component.PropertiesPanel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class ModelerUI extends UI {
     // we can use either constructor autowiring or field autowiring
     @Autowired
     private SpringViewProvider viewProvider;
+
+    @Autowired
+    private TreePanel treePanel;
 
     @Autowired
     private PalettePanel palettePanel;
@@ -51,13 +55,16 @@ public class ModelerUI extends UI {
         centerContentLayout.setSizeFull();
         viewContainer.setContent(centerContentLayout);
 
+        treePanel.setWidth(400, Unit.PIXELS);
+        treePanel.setHeight(100, Unit.PERCENTAGE);
+
         VerticalLayout sidebar = new VerticalLayout(palettePanel, propertiesPanel);
         sidebar.setWidth(400, Unit.PIXELS);
         sidebar.setHeight(100, Unit.PERCENTAGE);
         sidebar.setMargin(true);
         sidebar.setSpacing(true);
 
-        final HorizontalLayout root = new HorizontalLayout(viewContainer, sidebar);
+        final HorizontalLayout root = new HorizontalLayout(treePanel, viewContainer, sidebar);
         root.setSizeFull();
         root.setExpandRatio(viewContainer, 1.0f);
         setContent(root);

@@ -12,7 +12,6 @@ import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.DragAndDropWrapper;
@@ -22,26 +21,25 @@ import com.vaadin.ui.themes.ValoTheme;
 import cz.mikrobestie.vaadin.modeler.component.CanvasComponent;
 import cz.mikrobestie.vaadin.modeler.component.PropertiesPanel;
 import cz.mikrobestie.vaadin.modeler.component.palette.PaletteButton;
+import cz.mikrobestie.vaadin.modeler.event.ComponentSelectedEvent;
+import cz.mikrobestie.vaadin.modeler.event.RootComponentChangedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.context.ApplicationEventPublisher;
 
 /**
  * @author Michal
  * @since 23.9.2015
  */
 @SpringView(name = "")
-@UIScope
 public class CanvasView extends DragAndDropWrapper implements View {
 
     public static final String STYLE_SELECTED = "_selected";
 
     private CssLayout layout;
     private CanvasComponent selected;
-    private List<SelectionListener> selectionListeners;
 
+    @Autowired
+    private ApplicationEventPublisher publisher;
 
     @Autowired
     private PropertiesPanel propertiesPanel;
@@ -89,6 +87,7 @@ public class CanvasView extends DragAndDropWrapper implements View {
                 }
                 targetLayout.addComponent(component);
                 setSelectedComponent(component);
+                publisher.publishEvent(new RootComponentChangedEvent(this, component));
             }
 
             @Override
@@ -97,12 +96,6 @@ public class CanvasView extends DragAndDropWrapper implements View {
             }
         });
     }
-
-    @PostConstruct
-    void init() {
-        addSelectionListener(propertiesPanel::setComponent);
-    }
-
 
     private void onComponentClick(Component clicked) {
         if (clicked == null || clicked instanceof CanvasComponent) {
@@ -119,13 +112,6 @@ public class CanvasView extends DragAndDropWrapper implements View {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
 
-    }
-
-    public void addSelectionListener(SelectionListener listener) {
-        if (selectionListeners == null) {
-            selectionListeners = new ArrayList<>();
-        }
-        selectionListeners.add(listener);
     }
 
     /**
@@ -147,23 +133,6 @@ public class CanvasView extends DragAndDropWrapper implements View {
     }
 
     private void fireSelectionEvent() {
-        if (selectionListeners != null) {
-            selectionListeners.forEach(l -> l.componentSelected(selected));
-        }
-    }
-
-
-    /**
-     * Listener for canvas component selection event.
-     */
-    @FunctionalInterface
-    public interface SelectionListener {
-
-        /**
-         * Called when component is selected in the canvas.
-         *
-         * @param component Canvas component
-         */
-        void componentSelected(CanvasComponent component);
+        publisher.publishEvent(new ComponentSelectedEvent(this, selected));
     }
 }

@@ -8,11 +8,14 @@ import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 import com.vaadin.event.dd.acceptcriteria.SourceIsTarget;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DragAndDropWrapper;
 import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.Layout;
+import com.vaadin.ui.declarative.DesignContext;
 import cz.mikrobestie.vaadin.modeler.component.palette.PaletteButton;
+import org.jsoup.nodes.Element;
 
 /**
  *
@@ -24,6 +27,7 @@ public class CanvasComponent<C extends Component> extends DragAndDropWrapper {
 
     public static final String STYLE_SELECTABLE = "_selectable";
 
+    private final FontAwesome icon;
 
     /**
      * Creates a wrapper for given component. Wrapper is used to add drag and drop
@@ -31,8 +35,9 @@ public class CanvasComponent<C extends Component> extends DragAndDropWrapper {
      *
      * @param root Wrapped component
      */
-    public CanvasComponent(C root) {
+    public CanvasComponent(C root, FontAwesome icon) {
         super(root);
+        this.icon = icon;
         addStyleName(STYLE_SELECTABLE);
         setSizeUndefined();
         setDragStartMode(DragStartMode.COMPONENT);
@@ -70,10 +75,29 @@ public class CanvasComponent<C extends Component> extends DragAndDropWrapper {
         return (C) getCompositionRoot();
     }
 
+    @Override
+    public FontAwesome getIcon() {
+        return icon;
+    }
+
+    public boolean hasChidlren() {
+        return getWrappedComponent() instanceof Layout && ((Layout) getWrappedComponent()).getComponentCount() > 0;
+    }
+
     public void remove() {
         HasComponents parent = getParent();
         if (parent instanceof Layout) {
             ((Layout) parent).removeComponent(this);
         }
+    }
+
+    @Override
+    public void readDesign(Element design, DesignContext designContext) {
+        getWrappedComponent().readDesign(design, designContext);
+    }
+
+    @Override
+    public void writeDesign(Element design, DesignContext designContext) {
+        getWrappedComponent().writeDesign(design, designContext);
     }
 }

@@ -5,6 +5,7 @@
 package cz.mikrobestie.vaadin.modeler.component.palette;
 
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DragAndDropWrapper;
@@ -21,6 +22,7 @@ import cz.mikrobestie.vaadin.modeler.component.CanvasComponent;
 public abstract class PaletteButton<C extends Component> extends DragAndDropWrapper {
 
     private final Class<C> type;
+    private final FontAwesome icon;
 
 
     /**
@@ -34,6 +36,7 @@ public abstract class PaletteButton<C extends Component> extends DragAndDropWrap
         setDragStartMode(DragStartMode.COMPONENT);
         setSizeUndefined();
         this.type = type;
+        this.icon = icon;
     }
 
     /**
@@ -49,9 +52,14 @@ public abstract class PaletteButton<C extends Component> extends DragAndDropWrap
                 component.setSizeFull();
             }
 
-            return new CanvasComponent<>(component);
+            return new CanvasComponent<>(component, icon);
         } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException("Cannot create component instance", e);
         }
+    }
+
+    @Override
+    public Resource getIcon() {
+        return icon;
     }
 }
