@@ -10,6 +10,7 @@ import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 import com.vaadin.event.dd.acceptcriteria.SourceIsTarget;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.DragAndDropWrapper;
 import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.Layout;
@@ -80,7 +81,11 @@ public class CanvasComponent<C extends Component> extends DragAndDropWrapper {
         return icon;
     }
 
-    public boolean hasChidlren() {
+    public boolean isContainer() {
+        return getWrappedComponent() instanceof ComponentContainer;
+    }
+
+    public boolean hasChildren() {
         return getWrappedComponent() instanceof Layout && ((Layout) getWrappedComponent()).getComponentCount() > 0;
     }
 

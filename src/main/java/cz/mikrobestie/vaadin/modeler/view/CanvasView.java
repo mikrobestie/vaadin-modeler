@@ -25,6 +25,7 @@ import cz.mikrobestie.vaadin.modeler.event.ComponentSelectedEvent;
 import cz.mikrobestie.vaadin.modeler.event.RootComponentChangedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 
 /**
  * @author Michal
@@ -80,7 +81,7 @@ public class CanvasView extends DragAndDropWrapper implements View {
                     if (layout.getComponentCount() != 0) {
                         layout.removeAllComponents();
                     }
-                    component.getWrappedComponent().setSizeFull();
+                    component.getWrappedComponent();
                     targetLayout = layout;
                 } else if (target instanceof CanvasComponent) {
                     targetLayout = ((Layout) target);
@@ -109,9 +110,23 @@ public class CanvasView extends DragAndDropWrapper implements View {
         }
     }
 
+    @EventListener
+    private void handleComponentSelected(ComponentSelectedEvent event) {
+        if (event.getSource() != this) {
+            onComponentClick(event.getComponent());
+        }
+    }
+
+    @EventListener
+    private void handleHierarchyChanged(RootComponentChangedEvent event) {
+        if (layout.getComponentCount() == 0 || event.getRoot() != layout.getComponent(0)) {
+            layout.removeAllComponents();
+            layout.addComponent(event.getRoot());
+        }
+    }
+
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-
     }
 
     /**
