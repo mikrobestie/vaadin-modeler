@@ -4,7 +4,7 @@
  */
 package cz.mikrobestie.vaadin.modeler.event;
 
-import cz.mikrobestie.vaadin.modeler.component.CanvasComponent;
+import com.vaadin.ui.Component;
 import org.springframework.context.ApplicationEvent;
 
 /**
@@ -13,19 +13,19 @@ import org.springframework.context.ApplicationEvent;
  */
 public class ComponentSelectedEvent extends ApplicationEvent {
 
-    private CanvasComponent component;
+    private Component component;
 
     /**
      * Create a new ApplicationEvent.
      *
      * @param source the object on which the event initially occurred (never {@code null})
      */
-    public ComponentSelectedEvent(Object source, CanvasComponent component) {
+    public ComponentSelectedEvent(Object source, Component component) {
         super(source);
         this.component = component;
     }
 
-    public CanvasComponent getComponent() {
+    public Component getComponent() {
         return component;
     }
 }

@@ -16,16 +16,20 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.ValoTheme;
 import cz.mikrobestie.vaadin.modeler.component.custom.FormCheckBox;
+import cz.mikrobestie.vaadin.modeler.component.custom.SizeField;
 import cz.mikrobestie.vaadin.modeler.event.ComponentSelectedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Michal
@@ -38,6 +42,7 @@ public class PropertiesPanel extends Panel {
     private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesPanel.class);
 
     private FormLayout layout;
+    private Component component;
     private BeanFieldGroup bfg = null;
 
     public PropertiesPanel() {
@@ -55,12 +60,16 @@ public class PropertiesPanel extends Panel {
      *
      * @param cc Component
      */
-    public void setComponent(CanvasComponent cc) {
+    public void setComponent(Component cc) {
+        this.component = cc;
         layout.removeAllComponents();
         if (cc != null) {
 
-            Component component = cc.getWrappedComponent();
             setCaption(component.getClass().getSimpleName() + " properties");
+
+            // Size
+            layout.addComponent(new SizeField(cc, SizeField.Mode.WIDTH));
+            layout.addComponent(new SizeField(cc, SizeField.Mode.HEIGHT));
 
             bfg = new BeanFieldGroup(component.getClass());
             bfg.setItemDataSource(component);
@@ -83,11 +92,15 @@ public class PropertiesPanel extends Panel {
 
             Button butRemove = new Button("Remove");
             butRemove.addStyleName(ValoTheme.BUTTON_DANGER);
-            butRemove.addClickListener(event -> cc.remove());
+            butRemove.addClickListener(event -> cc.setParent(null));
 
             layout.addComponent(butRemove);
             layout.setComponentAlignment(butRemove, Alignment.MIDDLE_CENTER);
         }
+    }
+
+    public Component getComponent() {
+        return component;
     }
 
     @EventListener
@@ -109,6 +122,7 @@ public class PropertiesPanel extends Panel {
             case "inputPrompt":
             case "primaryStyleName":
             case "styleName":
+            case "width":
 
                 field = new TextField();
                 break;
@@ -154,6 +168,21 @@ public class PropertiesPanel extends Panel {
                 combo.setItemCaption(Alignment.BOTTOM_CENTER, "BOTTOM_CENTER");
                 combo.addItem(Alignment.BOTTOM_RIGHT);
                 combo.setItemCaption(Alignment.BOTTOM_RIGHT, "BOTTOM_RIGHT");
+                combo.setTextInputAllowed(false);
+                combo.setNullSelectionAllowed(false);
+                combo.addValueChangeListener(e -> {
+
+                    // Re-add inner components to take effect
+                    Layout layout = (Layout) getComponent();
+                    List<Component> contents = new ArrayList<>();
+                    for (Component component : layout) {
+                        contents.add(component);
+                    }
+                    layout.removeAllComponents();
+                    for (Component content : contents) {
+                        layout.addComponent(content);
+                    }
+                });
                 field = combo;
                 break;
 

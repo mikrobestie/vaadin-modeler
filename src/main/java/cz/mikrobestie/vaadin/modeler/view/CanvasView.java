@@ -18,7 +18,6 @@ import com.vaadin.ui.DragAndDropWrapper;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.themes.ValoTheme;
-import cz.mikrobestie.vaadin.modeler.component.CanvasComponent;
 import cz.mikrobestie.vaadin.modeler.component.PropertiesPanel;
 import cz.mikrobestie.vaadin.modeler.component.palette.PaletteButton;
 import cz.mikrobestie.vaadin.modeler.event.ComponentSelectedEvent;
@@ -37,7 +36,7 @@ public class CanvasView extends DragAndDropWrapper implements View {
     public static final String STYLE_SELECTED = "_selected";
 
     private CssLayout layout;
-    private CanvasComponent selected;
+    private Component selected;
 
     @Autowired
     private ApplicationEventPublisher publisher;
@@ -53,7 +52,7 @@ public class CanvasView extends DragAndDropWrapper implements View {
         setHeight(480, Unit.PIXELS);
 
         layout = (CssLayout) ((Panel) getCompositionRoot()).getContent();
-        layout.addLayoutClickListener(e -> onComponentClick(e.getClickedComponent()));
+        layout.addLayoutClickListener(e -> setSelectedComponent(e.getClickedComponent()));
         layout.setSizeFull();
         getCompositionRoot().setSizeFull();
         getCompositionRoot().addStyleName(ValoTheme.PANEL_BORDERLESS);
@@ -65,13 +64,11 @@ public class CanvasView extends DragAndDropWrapper implements View {
 
                 // Find source component
                 Component sourceComponent = event.getTransferable().getSourceComponent();
-                CanvasComponent component;
+                Component component;
                 if (sourceComponent instanceof PaletteButton) {
                     component = ((PaletteButton) sourceComponent).instantiate();
-                } else if (sourceComponent instanceof CanvasComponent) {
-                    component = (CanvasComponent) sourceComponent;
                 } else {
-                    throw new IllegalArgumentException("Zdrojová komponenta " + sourceComponent + " není typu CanvasCOmponent ani PaletteButton");
+                    throw new IllegalArgumentException("Zdrojová komponenta " + sourceComponent + " není typu PaletteButton");
                 }
 
                 // Find target component
@@ -81,10 +78,7 @@ public class CanvasView extends DragAndDropWrapper implements View {
                     if (layout.getComponentCount() != 0) {
                         layout.removeAllComponents();
                     }
-                    component.getWrappedComponent();
                     targetLayout = layout;
-                } else if (target instanceof CanvasComponent) {
-                    targetLayout = ((Layout) target);
                 }
                 targetLayout.addComponent(component);
                 setSelectedComponent(component);
@@ -98,22 +92,10 @@ public class CanvasView extends DragAndDropWrapper implements View {
         });
     }
 
-    private void onComponentClick(Component clicked) {
-        if (clicked == null || clicked instanceof CanvasComponent) {
-            setSelectedComponent((CanvasComponent) clicked);
-        } else {
-            if (clicked.getParent() instanceof CanvasComponent) {
-                setSelectedComponent((CanvasComponent) clicked.getParent());
-            } else {
-                throw new IllegalStateException("Illegal component in canvas: " + clicked);
-            }
-        }
-    }
-
     @EventListener
     private void handleComponentSelected(ComponentSelectedEvent event) {
         if (event.getSource() != this) {
-            onComponentClick(event.getComponent());
+            setSelectedComponent(event.getComponent());
         }
     }
 
@@ -134,7 +116,7 @@ public class CanvasView extends DragAndDropWrapper implements View {
      *
      * @param c The component
      */
-    public void setSelectedComponent(CanvasComponent c) {
+    public void setSelectedComponent(Component c) {
         if (c != selected) {
             if (selected != null) {
                 selected.removeStyleName(STYLE_SELECTED);

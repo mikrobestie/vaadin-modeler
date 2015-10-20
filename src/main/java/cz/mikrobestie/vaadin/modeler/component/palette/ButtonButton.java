@@ -6,7 +6,6 @@ package cz.mikrobestie.vaadin.modeler.component.palette;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
-import cz.mikrobestie.vaadin.modeler.component.CanvasComponent;
 
 /**
  * Palette button creating HorizontalLayout on canvas drop.
@@ -24,9 +23,9 @@ public class ButtonButton extends PaletteButton<Button> {
     }
 
     @Override
-    public CanvasComponent<Button> instantiate() {
-        CanvasComponent<Button> instance = super.instantiate();
-        instance.getWrappedComponent().setCaption("Button");
+    public Button instantiate() {
+        Button instance = super.instantiate();
+        instance.setCaption("Button");
         return instance;
     }
 }

@@ -10,8 +10,6 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DragAndDropWrapper;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
-import cz.mikrobestie.vaadin.modeler.component.CanvasComponent;
 
 /**
  * Abstract button which can be draggen onto canvas to add a specific component.
@@ -44,15 +42,9 @@ public abstract class PaletteButton<C extends Component> extends DragAndDropWrap
      *
      * @return Component instance
      */
-    public CanvasComponent<C> instantiate() {
+    public C instantiate() {
         try {
-
-            C component = type.newInstance();
-            if (component instanceof Layout) {
-                component.setSizeFull();
-            }
-
-            return new CanvasComponent<>(component, icon);
+            return type.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException("Cannot create component instance", e);
         }

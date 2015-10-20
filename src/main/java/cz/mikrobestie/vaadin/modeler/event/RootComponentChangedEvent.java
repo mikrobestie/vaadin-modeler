@@ -4,7 +4,7 @@
  */
 package cz.mikrobestie.vaadin.modeler.event;
 
-import cz.mikrobestie.vaadin.modeler.component.CanvasComponent;
+import com.vaadin.ui.Component;
 import org.springframework.context.ApplicationEvent;
 
 /**
@@ -13,19 +13,19 @@ import org.springframework.context.ApplicationEvent;
  */
 public class RootComponentChangedEvent extends ApplicationEvent {
 
-    private CanvasComponent root;
+    private Component root;
 
     /**
      * Create a new ApplicationEvent.
      *
      * @param source the object on which the event initially occurred (never {@code null})
      */
-    public RootComponentChangedEvent(Object source, CanvasComponent root) {
+    public RootComponentChangedEvent(Object source, Component root) {
         super(source);
         this.root = root;
     }
 
-    public CanvasComponent getRoot() {
+    public Component getRoot() {
         return root;
     }
 }
